@@ -15,3 +15,15 @@ export const EXPLORE_ITEMS: ExploreItem[] = [
   { label: "Settings", href: "/settings", icon: "settings" },
   { label: "Save post", href: "#", icon: "savePost" },
 ];
+
+export type SuggestedPerson = {
+  avatarSrc: string;
+  name: string;
+  role: string;
+};
+
+export const SUGGESTED_PEOPLE: SuggestedPerson[] = [
+  { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple" },
+  { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn" },
+  { avatarSrc: "/images/avatars/people3.png", name: "Dylan Field", role: "CEO of Figma" },
+];
