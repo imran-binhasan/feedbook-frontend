@@ -30,6 +30,20 @@ export type FeedEvent = {
   attendees: number;
 };
 
+export type SuggestedPage = {
+  avatarSrc: string;
+  name: string;
+  role: string;
+};
+
+export const SUGGESTED_PAGES: SuggestedPage[] = [
+  {
+    avatarSrc: "/images/avatars/Avatar.png",
+    name: "Radovan SkillArena",
+    role: "Founder & CEO at Trophy",
+  },
+];
+
 export const FEED_EVENTS: FeedEvent[] = [
   {
     coverSrc: "/images/feed/feed_event1.png",
