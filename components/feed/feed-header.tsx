@@ -1,0 +1,123 @@
+import Image from "next/image";
+import Link from "next/link";
+import {
+  HomeIcon,
+  SearchIcon,
+  FriendsIcon,
+  BellIcon,
+  ChatIcon,
+  ChevronDownIcon,
+} from "@/components/ui/icons";
+import { cn } from "@/libs/utils";
+
+type NavLink = {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  badge?: number;
+  active?: boolean;
+};
+
+const NAV_LINKS: NavLink[] = [
+  { label: "Home", icon: HomeIcon, href: "/feed", active: true },
+  { label: "Friends", icon: FriendsIcon, href: "/friends" },
+  { label: "Notifications", icon: BellIcon, href: "#", badge: 6 },
+  { label: "Chat", icon: ChatIcon, href: "/chat", badge: 2 },
+];
+
+export function FeedHeader() {
+  return (
+    <header className="fixed top-0 right-0 left-0 z-50 bg-card shadow-none dark:border-b dark:border-border-soft dark:shadow-none">
+      <div className="mx-auto flex h-[72px] max-w-[1296px] items-center px-4 xl:px-0">
+        <div className="flex shrink-0 items-center">
+          <Link href="/feed" aria-label="Buddy Script home">
+            <Image
+              src="/images/logo/logo.svg"
+              alt="Buddy Script logo"
+              width={161}
+              height={40}
+              priority
+              className="h-auto w-auto max-w-[137px]"
+            />
+          </Link>
+        </div>
+
+        <div className="ml-auto hidden lg:block">
+          <form className="relative">
+            <SearchIcon
+              aria-hidden="true"
+              className="absolute top-1/2 left-4 -translate-y-1/2 text-muted-foreground"
+            />
+            <input
+              type="search"
+              placeholder="input search text"
+              className={cn(
+                "h-10 w-[426px] rounded-[40px] border border-transparent bg-surface-muted pr-4 pl-11",
+                "text-sm font-medium text-card-foreground placeholder:text-placeholder",
+                "transition-colors duration-150 outline-none",
+                "focus:border-primary focus:ring-0",
+              )}
+            />
+          </form>
+        </div>
+
+        <ul className="ml-auto hidden items-center space-x-6 lg:flex xl:space-x-11">
+          {NAV_LINKS.map((item) => (
+            <li key={item.label} className={cn(item.label === "Notifications" && "relative", item.label === "Chat" && "relative")}>
+              {item.label === "Home" ? (
+                <Link
+                  href={item.href}
+                  aria-label={item.label}
+                  aria-current={item.active ? "page" : undefined}
+                  className={cn(
+                    "relative flex h-[70px] items-center justify-center px-4 transition-all",
+                    item.active
+                      ? "border-b-2 border-brand-underline"
+                      : "border-b-2 border-transparent hover:border-b-2 hover:border-brand-underline",
+                  )}
+                >
+                  <item.icon className="size-auto" />
+                </Link>
+              ) : item.label === "Friends" ? (
+                <Link
+                  href={item.href}
+                  aria-label={item.label}
+                  aria-current={item.active ? "page" : undefined}
+                  className="flex h-[70px] items-center justify-center px-2"
+                >
+                  <item.icon className="size-auto" />
+                </Link>
+              ) : (
+                <span className="relative cursor-pointer">
+                  <item.icon className="size-auto" />
+                  <span
+                    aria-label={`${item.badge} unread`}
+                    className="bg-primary border-card absolute -top-2 -right-2 flex h-[17px] min-w-[17px] items-center justify-center rounded-[9px] border text-[11px] font-normal leading-[1.4] text-primary-foreground"
+                  >
+                    {item.badge}
+                  </span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <div className="ml-4 flex shrink-0 cursor-pointer items-center gap-2 lg:ml-8">
+          <div className="size-7 overflow-hidden rounded-full">
+            <Image
+              src="/images/avatars/profile.png"
+              alt="Profile"
+              width={32}
+              height={32}
+              className="size-full object-cover"
+            />
+          </div>
+          <div className="hidden cursor-pointer items-center gap-1 lg:flex">
+            <span className="text-base font-normal text-title">Dylan Field</span>
+            <ChevronDownIcon className="size-auto" />
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
