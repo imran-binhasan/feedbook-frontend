@@ -6,21 +6,26 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Feedbook",
-  description: "A social media platform for sharing and discovering content.",
+  title: {
+    default: "Buddy Script",
+    template: "%s | Buddy Script",
+  },
+  description:
+    "Buddy Script — a social platform to share and discover content.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="en" className={poppins.variable} suppressHydrationWarning>
+      <body className="min-h-dvh bg-background text-foreground font-sans antialiased">
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,0 +1,179 @@
+"use client";
+
+import type { FieldPath, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { RegisterValues } from "@/libs/validations/auth";
+import { registerSchema } from "@/libs/validations/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+
+export function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      terms: false,
+    },
+    mode: "onTouched",
+  });
+
+  function onSubmit(values: RegisterValues) {
+    // TODO: wire with TanStack Query mutation in the API integration phase.
+    console.log("[register]", values);
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-3.5"
+    >
+      {/* First name + Last name */}
+      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+        <FieldInput
+          id="register-first-name"
+          label="First name"
+          name="firstName"
+          autoComplete="given-name"
+          placeholder="Dylan"
+          register={register}
+          error={errors.firstName?.message}
+        />
+        <FieldInput
+          id="register-last-name"
+          label="Last name"
+          name="lastName"
+          autoComplete="family-name"
+          placeholder="Field"
+          register={register}
+          error={errors.lastName?.message}
+        />
+      </div>
+
+      {/* Email */}
+      <FieldInput
+        id="register-email"
+        label="Email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        placeholder="you@example.com"
+        register={register}
+        error={errors.email?.message}
+      />
+
+      {/* Password */}
+      <FieldInput
+        id="register-password"
+        label="Password"
+        name="password"
+        type="password"
+        autoComplete="new-password"
+        placeholder="••••••••"
+        register={register}
+        error={errors.password?.message}
+      />
+
+      {/* Confirm password */}
+      <FieldInput
+        id="register-confirm-password"
+        label="Repeat password"
+        name="confirmPassword"
+        type="password"
+        autoComplete="new-password"
+        placeholder="••••••••"
+        register={register}
+        error={errors.confirmPassword?.message}
+      />
+
+      {/* Terms */}
+      <div className="pt-1">
+        <Checkbox
+          id="register-terms"
+          label={<span>I agree to terms &amp; conditions</span>}
+          aria-invalid={!!errors.terms}
+          aria-describedby={errors.terms ? "register-terms-error" : undefined}
+          {...register("terms")}
+        />
+        {errors.terms ? (
+          <p
+            id="register-terms-error"
+            role="alert"
+            className="mt-2 text-sm font-normal text-destructive"
+          >
+            {errors.terms.message}
+          </p>
+        ) : null}
+      </div>
+
+      {/* Submit */}
+      <div className="pb-15 pt-6.5">
+        <Button
+          type="submit"
+          size="md"
+          loading={isSubmitting}
+          className="h-auto w-full py-3"
+        >
+          Register now
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+type FieldInputProps = {
+  id: string;
+  label: string;
+  name: FieldPath<RegisterValues>;
+  type?: "text" | "email" | "password";
+  autoComplete?: string;
+  placeholder?: string;
+  register: UseFormRegister<RegisterValues>;
+  error?: string;
+};
+
+function FieldInput({
+  id,
+  label,
+  name,
+  type = "text",
+  autoComplete,
+  placeholder,
+  register,
+  error,
+}: FieldInputProps) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        type={type}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+        {...register(name)}
+      />
+      {error ? (
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="text-sm font-normal text-destructive"
+        >
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
