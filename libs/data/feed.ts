@@ -61,6 +61,22 @@ export const FEED_EVENTS: FeedEvent[] = [
   },
 ];
 
+export type Friend = {
+  avatarSrc: string;
+  name: string;
+  role: string;
+  online: boolean;
+};
+
+export const FRIENDS: Friend[] = [
+  { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple", online: false },
+  { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn", online: true },
+  { avatarSrc: "/images/avatars/people3.png", name: "Dylan Field", role: "CEO of Figma", online: true },
+  { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple", online: false },
+  { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn", online: true },
+  { avatarSrc: "/images/avatars/people3.png", name: "Dylan Field", role: "CEO of Figma", online: true },
+];
+
 export const SUGGESTED_PEOPLE: SuggestedPerson[] = [
   { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple" },
   { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn" },
