@@ -1,20 +1,23 @@
 "use client";
 
-import type { FieldPath, UseFormRegister } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { RegisterValues } from "@/libs/validations/auth";
-import { registerSchema } from "@/libs/validations/auth";
+import type { RegisterValues } from "@/features/auth/schemas/auth";
+import { registerSchema } from "@/features/auth/schemas/auth";
+import { useRegister } from "@/features/auth/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { FieldPath, UseFormRegister } from "react-hook-form";
 
 export function RegisterForm() {
+  const registerMutation = useRegister();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -29,8 +32,12 @@ export function RegisterForm() {
   });
 
   function onSubmit(values: RegisterValues) {
-    // TODO: wire with TanStack Query mutation in the API integration phase.
-    console.log("[register]", values);
+    registerMutation.mutate({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+    });
   }
 
   return (
@@ -122,7 +129,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           size="md"
-          loading={isSubmitting}
+          loading={registerMutation.isPending}
           className="h-auto w-full py-3"
         >
           Register now

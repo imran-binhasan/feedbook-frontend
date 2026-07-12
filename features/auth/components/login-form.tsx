@@ -1,32 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginValues } from "@/libs/validations/auth";
+import { loginSchema, type LoginValues } from "@/features/auth/schemas/auth";
+import { useLogin } from "@/features/auth/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export function LoginForm() {
+  const login = useLogin();
+
   const {
     register,
     handleSubmit,
-    setValue,
-    control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", remember: true },
     mode: "onTouched",
   });
 
-  const rememberValue = useWatch({ control, name: "remember" });
-
   function onSubmit(values: LoginValues) {
-    // TODO: wire with TanStack Query mutation in the API integration phase.
-    console.log("[login]", values);
+    login.mutate({
+      email: values.email,
+      password: values.password,
+      remember: values.remember,
+    });
   }
 
   return (
@@ -85,11 +87,9 @@ export function LoginForm() {
       <div className="flex items-center justify-between pt-1">
         <Checkbox
           id="login-remember"
-          checked={rememberValue}
-          onChange={(e) =>
-            setValue("remember", e.target.checked, { shouldDirty: true })
-          }
           label="Remember me"
+          defaultChecked
+          {...register("remember")}
         />
         <Link
           href="/forgot-password"
@@ -104,7 +104,7 @@ export function LoginForm() {
         <Button
           type="submit"
           size="md"
-          loading={isSubmitting}
+          loading={login.isPending}
           className="h-auto w-full py-3"
         >
           Login now
