@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   HomeIcon,
   SearchIcon,
@@ -15,17 +18,17 @@ type NavLink = {
   icon: React.ComponentType<{ className?: string }>;
   href: string;
   badge?: number;
-  active?: boolean;
 };
 
-const NAV_LINKS: NavLink[] = [
-  { label: "Home", icon: HomeIcon, href: "/feed", active: true },
-  { label: "Friends", icon: FriendsIcon, href: "/friends" },
-  { label: "Notifications", icon: BellIcon, href: "#", badge: 6 },
-  { label: "Chat", icon: ChatIcon, href: "/chat", badge: 2 },
-];
-
 export function FeedHeader() {
+  const pathname = usePathname();
+
+  const NAV_LINKS: NavLink[] = [
+    { label: "Home", icon: HomeIcon, href: "/feed" },
+    { label: "Friends", icon: FriendsIcon, href: "/friends" },
+    { label: "Notifications", icon: BellIcon, href: "#", badge: 6 },
+    { label: "Chat", icon: ChatIcon, href: "/chat", badge: 2 },
+  ];
   return (
     <header className="fixed top-0 right-0 left-0 z-50 bg-card shadow-none dark:border-b dark:border-border-soft dark:shadow-none">
       <div className="mx-auto flex h-[72px] max-w-[1296px] items-center px-4 xl:px-0">
@@ -50,7 +53,7 @@ export function FeedHeader() {
             />
             <input
               type="search"
-              placeholder="input search text"
+              placeholder="Search posts..."
               className={cn(
                 "h-10 w-[426px] rounded-[40px] border border-transparent bg-surface-muted pr-4 pl-11",
                 "text-sm font-medium text-card-foreground placeholder:text-placeholder",
@@ -62,28 +65,33 @@ export function FeedHeader() {
         </div>
 
         <ul className="ml-auto hidden items-center space-x-6 lg:flex xl:space-x-11">
-          {NAV_LINKS.map((item) => (
+          {NAV_LINKS.map((item) => {
+            const isActive = pathname === item.href;
+            return (
             <li key={item.label} className={cn(item.label === "Notifications" && "relative", item.label === "Chat" && "relative")}>
               {item.label === "Home" ? (
                 <Link
                   href={item.href}
                   aria-label={item.label}
-                  aria-current={item.active ? "page" : undefined}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "relative flex h-[70px] items-center justify-center px-4 transition-all",
-                    item.active
+                    isActive
                       ? "border-b-2 border-brand-underline"
                       : "border-b-2 border-transparent hover:border-b-2 hover:border-brand-underline",
                   )}
                 >
-                  <item.icon className="size-auto" />
+                  <item.icon className={cn("size-auto", isActive && "text-primary")} />
                 </Link>
               ) : item.label === "Friends" ? (
                 <Link
                   href={item.href}
                   aria-label={item.label}
-                  aria-current={item.active ? "page" : undefined}
-                  className="flex h-[70px] items-center justify-center px-2"
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "flex h-[70px] items-center justify-center px-2 transition-all",
+                    isActive && "text-primary",
+                  )}
                 >
                   <item.icon className="size-auto" />
                 </Link>
@@ -99,7 +107,8 @@ export function FeedHeader() {
                 </span>
               )}
             </li>
-          ))}
+            );
+          })}
         </ul>
 
         {/* Mobile search icon */}

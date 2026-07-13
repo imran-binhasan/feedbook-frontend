@@ -3,17 +3,26 @@ export class ApiError extends Error {
   payload: unknown;
 
   constructor(status: number, payload: unknown) {
-    super(
-      typeof payload === "object" &&
-        payload !== null &&
-        "message" in payload &&
-        typeof (payload as { message: string }).message === "string"
-        ? (payload as { message: string }).message
-        : `Request failed with status ${status}`,
-    );
+    const message = extractMessage(payload) ?? `Request failed with status ${status}`;
+    super(message);
     this.name = "ApiError";
     this.status = status;
     this.payload = payload;
+  }
+}
+
+function extractMessage(payload: unknown): string | undefined {
+  if (typeof payload !== "object" || payload === null) return;
+  // Backend error envelope: { error: { message } }
+  const err = (payload as Record<string, unknown>).error;
+  if (typeof err === "object" && err !== null && "message" in err) {
+    const msg = (err as Record<string, unknown>).message;
+    if (typeof msg === "string") return msg;
+  }
+  // Direct { message } for non-standard errors
+  if ("message" in (payload as Record<string, unknown>)) {
+    const msg = (payload as Record<string, unknown>).message;
+    if (typeof msg === "string") return msg;
   }
 }
 

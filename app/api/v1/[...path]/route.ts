@@ -29,11 +29,23 @@ async function proxy(request: NextRequest) {
 
   const body = ["POST", "PATCH"].includes(request.method) ? await request.text() : undefined;
 
-  const res = await fetch(`${backendUrl(pathname.replace("/api/v1", ""))}${search}`, {
-    method: request.method,
-    headers,
-    body,
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${backendUrl(pathname.replace("/api/v1", ""))}${search}`, {
+      method: request.method,
+      headers,
+      body,
+    });
+  } catch {
+    return NextResponse.json(
+      { success: false, error: { message: "Backend unreachable" } },
+      { status: 502 },
+    );
+  }
+
+  if (res.status === 204) {
+    return new NextResponse(null, { status: 204 });
+  }
 
   const data = await res.text();
   return new NextResponse(data, {

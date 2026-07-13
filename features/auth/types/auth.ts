@@ -7,7 +7,6 @@ export interface UserProfile {
 
 export interface AuthState {
   user: UserProfile | null;
-  isAuthenticated: boolean;
   sessionExpiresAt?: string;
 }
 

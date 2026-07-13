@@ -3,6 +3,8 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
+import { useAuthStore } from "@/features/auth/store/auth";
+import { useLogout } from "@/features/auth/hooks/use-auth";
 
 const menuItems = [
   {
@@ -30,31 +32,21 @@ const menuItems = [
       </svg>
     ),
   },
-  {
-    label: "Log Out",
-    href: "/api/auth/logout",
-    icon: (
-      <svg width="16" height="16" fill="none" viewBox="0 0 19 19">
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.5"
-          d="M6.667 18H2.889A1.889 1.889 0 011 16.111V2.89A1.889 1.889 0 012.889 1h3.778M13.277 14.222L18 9.5l-4.723-4.722M18 9.5H6.667"
-        />
-      </svg>
-    ),
-  },
 ];
 
 export function ProfileDropdown() {
+  const user = useAuthStore((s) => s.user);
+  const logout = useLogout();
+  const name = user ? `${user.firstName} ${user.lastName}` : "User";
+  const email = user?.email ?? "user@example.com";
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button type="button" className="flex shrink-0 cursor-pointer items-center gap-2">
-          <Avatar name="Dylan Field" email="dylan@example.com" size={28} />
+          <Avatar name={name} email={email} size={28} />
           <div className="hidden cursor-pointer items-center gap-1 lg:flex">
-            <span className="text-base font-normal text-title">Dylan Field</span>
+            <span className="text-base font-normal text-title">{name}</span>
             <svg width="10" height="6" fill="none" viewBox="0 0 10 6">
               <path
                 fill="#112032"
@@ -73,9 +65,9 @@ export function ProfileDropdown() {
           className="z-[9999] w-[312px] rounded-lg bg-card p-4 shadow-lg ring-1 ring-border-soft"
         >
           <div className="mb-4 flex items-center gap-3">
-          <Avatar name="Dylan Field" email="dylan@example.com" size={40} />
+          <Avatar name={name} email={email} size={40} />
             <div>
-              <p className="text-sm font-medium text-title">Dylan Field</p>
+              <p className="text-sm font-medium text-title">{name}</p>
               <Link href="/profile" className="text-xs font-medium text-primary transition-colors hover:text-primary-hover">
                 View Profile
               </Link>
@@ -108,6 +100,33 @@ export function ProfileDropdown() {
               </DropdownMenu.Item>
             ))}
           </div>
+
+          <DropdownMenu.Separator className="my-1 h-px bg-border-soft" />
+
+          <DropdownMenu.Item asChild>
+            <button
+              type="button"
+              onClick={() => logout.mutate()}
+              className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors hover:bg-surface-muted hover:text-foreground"
+            >
+              <span className="flex items-center gap-3">
+                <span className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-background transition-colors group-hover:bg-accent-tint">
+                  <span className="flex items-center justify-center">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 19 19">
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M6.667 18H2.889A1.889 1.889 0 011 16.111V2.89A1.889 1.889 0 012.889 1h3.778M13.277 14.222L18 9.5l-4.723-4.722M18 9.5H6.667"
+                      />
+                    </svg>
+                  </span>
+                </span>
+                Log Out
+              </span>
+            </button>
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

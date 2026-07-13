@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   MobileHomeIcon,
   MobileFriendsIcon,
@@ -13,17 +16,17 @@ type MobileNavItem = {
   icon: React.ComponentType<{ className?: string }>;
   href: string;
   badge?: number;
-  active?: boolean;
 };
 
 const MOBILE_NAV_ITEMS: MobileNavItem[] = [
-  { label: "Home", icon: MobileHomeIcon, href: "/feed", active: true },
+  { label: "Home", icon: MobileHomeIcon, href: "/feed" },
   { label: "Friends", icon: MobileFriendsIcon, href: "/friends" },
   { label: "Notifications", icon: MobileBellIcon, href: "#", badge: 6 },
   { label: "Chat", icon: MobileChatIcon, href: "/chat", badge: 2 },
 ];
 
 export function MobileNav() {
+  const pathname = usePathname();
   return (
     <nav
       aria-label="Mobile primary"
@@ -33,16 +36,18 @@ export function MobileNav() {
       )}
     >
       <ul className="flex items-center justify-around px-5 py-5">
-        {MOBILE_NAV_ITEMS.map((item) => (
+        {MOBILE_NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href;
+          return (
           <li key={item.label}>
             <Link
               href={item.href}
               aria-label={item.label}
-              aria-current={item.active ? "page" : undefined}
+              aria-current={isActive ? "page" : undefined}
               className={cn(
                 "relative inline-flex items-center justify-center transition-colors",
                 "text-muted-foreground hover:text-foreground",
-                item.active && "text-primary",
+                isActive && "text-primary",
               )}
             >
               <item.icon className="size-auto" />
@@ -56,7 +61,8 @@ export function MobileNav() {
               ) : null}
             </Link>
           </li>
-        ))}
+          );
+        })}
         <li>
           <Link
             href="/menu"

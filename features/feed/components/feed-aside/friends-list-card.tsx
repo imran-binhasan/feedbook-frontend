@@ -39,7 +39,7 @@ export function FriendsListCard() {
           placeholder="Search friends"
           aria-label="Search friends"
           className={cn(
-            "h-[42px] w-full rounded-[40px] border border-border-soft bg-surface-muted pl-10 pr-4",
+            "h-10.5 w-full rounded-[40px] border border-border-soft bg-surface-muted pl-10 pr-4",
             "text-sm text-card-foreground placeholder:text-placeholder",
             "transition-colors duration-150 outline-none",
             "focus:border-primary focus:ring-0",

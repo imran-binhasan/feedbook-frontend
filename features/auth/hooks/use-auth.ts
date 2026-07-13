@@ -55,18 +55,18 @@ export function useLogout() {
     onSettled: () => {
       clearAuth();
       queryClient.clear();
-      router.push("/login");
+      router.replace("/login");
     },
   });
 }
 
 export function useCurrentUser() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
 
   return useQuery({
     queryKey: ["auth", "me"],
     queryFn: getMeApi,
-    enabled: isAuthenticated,
+    enabled: user !== null,
     retry: false,
   });
 }

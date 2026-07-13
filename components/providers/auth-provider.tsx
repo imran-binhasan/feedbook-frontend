@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuthStore } from "@/features/auth/store/auth";
 import { getMeApi } from "@/features/auth/api/auth";
@@ -11,6 +11,7 @@ const WARN_BEFORE_MS = 60 * 60 * 1000;
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const setUser = useAuthStore((s) => s.setUser);
   const clearAuth = useAuthStore((s) => s.clearAuth);
   const warned = useRef(false);
@@ -27,7 +28,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .catch(() => {
         if (!cancelled) {
           clearAuth();
-          router.replace("/login");
+          if (pathname !== "/login" && pathname !== "/register") {
+            toast.error("Session expired. Please log in again.");
+            router.replace("/login");
+          }
         }
       })
       .finally(() => {
@@ -37,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [setUser, clearAuth, router]);
+  }, [setUser, clearAuth, router, pathname]);
 
   useEffect(() => {
     if (!ready || warned.current) return;
@@ -48,7 +52,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const remaining = new Date(expiresAt).getTime() - Date.now();
     if (remaining <= 0) {
       clearAuth();
-      router.replace("/login");
+      if (pathname !== "/login" && pathname !== "/register") {
+        router.replace("/login");
+      }
       return;
     }
 
@@ -56,16 +62,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       warned.current = true;
       toast.warning("Your session is about to expire. Please log in again.");
     }
-  }, [ready, clearAuth, router]);
+  }, [ready, clearAuth, router, pathname]);
 
   const handleFocus = useCallback(() => {
     const expiresAt = useAuthStore.getState().sessionExpiresAt;
     if (!expiresAt) return;
-    if (new Date(expiresAt).getTime() - Date.now() <= 0) {
+    if (pathname !== "/login" && pathname !== "/register" && new Date(expiresAt).getTime() - Date.now() <= 0) {
       clearAuth();
       router.replace("/login");
     }
-  }, [clearAuth, router]);
+  }, [clearAuth, router, pathname]);
 
   useEffect(() => {
     window.addEventListener("focus", handleFocus);

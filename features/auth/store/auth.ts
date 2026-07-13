@@ -8,7 +8,6 @@ interface AuthActions {
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: false,
 };
 
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
@@ -17,7 +16,6 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   setUser: (user: UserProfile, sessionExpiresAt?: string) =>
     set({
       user,
-      isAuthenticated: true,
       sessionExpiresAt,
     }),
 
