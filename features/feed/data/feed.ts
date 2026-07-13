@@ -13,7 +13,7 @@ export const EXPLORE_ITEMS: ExploreItem[] = [
   { label: "Group", href: "/groups", icon: "group" },
   { label: "Gaming", href: "#", icon: "gaming", isNew: true },
   { label: "Settings", href: "/settings", icon: "settings" },
-  { label: "Save post", href: "#", icon: "savePost" },
+  { label: "Saved post", href: "#", icon: "savePost" },
 ];
 
 export type SuggestedPerson = {

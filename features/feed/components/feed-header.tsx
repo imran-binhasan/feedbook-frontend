@@ -102,7 +102,16 @@ export function FeedHeader() {
           ))}
         </ul>
 
-        <div className="ml-4 lg:ml-8">
+        {/* Mobile search icon */}
+        <button
+          type="button"
+          aria-label="Search"
+          className="ml-auto flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-surface-muted lg:hidden"
+        >
+          <SearchIcon className="size-[18px]" />
+        </button>
+
+        <div className="hidden lg:ml-8 lg:block">
           <ProfileDropdown />
         </div>
       </div>

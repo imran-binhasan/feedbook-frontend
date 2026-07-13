@@ -31,10 +31,10 @@ export function ExploreCard() {
         Explore
       </h2>
       <ul className="m-0 list-none space-y-6 p-0">
-        {EXPLORE_ITEMS.map((item) => {
+        {EXPLORE_ITEMS.map((item, index) => {
           const Icon = ICON_MAP[item.icon];
           return (
-            <li key={item.label}>
+            <li key={item.label} className={cn(index === EXPLORE_ITEMS.length - 1 && "mb-4")}>
               <Link
                 href={item.href}
                 className={cn(

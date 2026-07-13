@@ -24,7 +24,7 @@ export function FeedShell({
       <div className="mx-auto w-full max-w-[1296px] px-4 pt-[90px] xl:px-0">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
           <aside className="hidden lg:col-span-3 lg:block">
-            <div className="sticky top-[90px] max-h-[calc(100vh-100px)] overflow-y-auto">
+            <div className="sticky top-[90px] max-h-[calc(100vh-100px)] overflow-y-auto scrollbar-none">
               {sidebar}
             </div>
           </aside>
@@ -32,7 +32,7 @@ export function FeedShell({
           <main className="lg:col-span-6">{stream}</main>
 
           <aside className="hidden lg:col-span-3 lg:block">
-            <div className="sticky top-[90px] max-h-[calc(100vh-100px)] overflow-y-auto">
+            <div className="sticky top-[90px] max-h-[calc(100vh-100px)] overflow-y-auto scrollbar-none">
               {aside}
             </div>
           </aside>

@@ -16,7 +16,7 @@ export default function proxy(request: NextRequest) {
       : NextResponse.next();
   }
 
-  if (pathname.startsWith("/feed") || pathname.startsWith("/api/users/me")) {
+  if (pathname.startsWith("/feed") || pathname.startsWith("/api/v1/users/me")) {
     return isAuthenticated
       ? NextResponse.next()
       : NextResponse.redirect(new URL("/login", request.url));
@@ -26,5 +26,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/register", "/feed/:path*", "/api/users/me"],
+  matcher: ["/", "/login", "/register", "/feed/:path*", "/api/v1/users/me"],
 };

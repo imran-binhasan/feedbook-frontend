@@ -19,7 +19,7 @@ export function registerApi(data: RegisterRequest) {
 }
 
 export function getMeApi() {
-  return apiClient<UserProfile>("/api/users/me");
+  return apiClient<UserProfile>("/api/v1/users/me");
 }
 
 export function logoutApi() {

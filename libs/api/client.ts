@@ -26,6 +26,16 @@ type RequestOptions = {
 
 const TIMEOUT_MS = 15_000;
 
+/**
+ * Wraps a fetch response, optionally extracting the inner `data`
+ * from the backend's `{ success, data, meta }` envelope.
+ * When pagination meta is present, returns `{ items, pagination }`.
+ */
+export type PaginatedApiResult<T> = {
+  items: T[];
+  pagination: { nextCursor: string | null; hasMore: boolean };
+};
+
 export async function apiClient<T = unknown>(
   path: string,
   options: RequestOptions = {},
@@ -59,7 +69,21 @@ export async function apiClient<T = unknown>(
 
     if (response.status === 204) return undefined as T;
 
-    return response.json() as Promise<T>;
+    const body = await response.json();
+
+    // Unwrap { success, data, meta } envelope from backend
+    if (typeof body === "object" && body !== null && body.success === true && "data" in body) {
+      // Preserve pagination info when present in meta
+      if (body.meta?.pagination) {
+        return {
+          items: body.data,
+          pagination: body.meta.pagination,
+        } as T;
+      }
+      return body.data as T;
+    }
+
+    return body as T;
   } finally {
     clearTimeout(timeout);
   }

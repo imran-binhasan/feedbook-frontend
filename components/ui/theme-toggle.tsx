@@ -2,9 +2,10 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { cn } from "@/libs/utils";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -12,44 +13,61 @@ export function ThemeToggle() {
     return () => clearTimeout(id);
   }, []);
 
-  if (!mounted) return null;
-
-  const isDark = theme === "dark";
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
-    <button
-      type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      className="fixed right-3 top-1/2 z-[9999] flex -translate-y-1/2 flex-col items-center rounded-full border border-primary bg-primary transition-all duration-200"
-      style={{ width: "32px", height: "66px" }}
-    >
-      <div
-        className="absolute size-[18px] rounded-full bg-card transition-transform duration-200"
-        style={{
-          top: "6px",
-          transform: isDark ? "translateY(36px)" : "translateY(0)",
-        }}
-      />
-      <svg
-        className="absolute bottom-2 size-3.5 text-card"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
+    <div className="fixed top-1/2 right-0 z-50 hidden -translate-x-1/2 lg:block">
+      <button
+        type="button"
+        aria-label="Toggle theme"
+        onClick={() => setTheme(isDark ? "light" : "dark")}
+        className={cn(
+          "relative flex h-8 w-[66px] items-center rounded-full border transition-none",
+          "rotate-90",
+          isDark
+            ? "border-transparent bg-background"
+            : "border-primary bg-primary",
+        )}
       >
-        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-      </svg>
-      <svg
-        className="absolute top-2 size-3.5 text-card"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <circle cx="12" cy="12" r="5" />
-        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-      </svg>
-    </button>
+        <span
+          className={cn(
+            "absolute transition-all duration-200 ease-in-out",
+            isDark ? "left-[calc(100%-28px)]" : "left-2.5",
+          )}
+        >
+          <span
+            className={cn(
+              "block size-[18px] rounded-full",
+              isDark ? "bg-primary" : "bg-card",
+            )}
+          />
+        </span>
+
+        {/* Moon icon — visible in light mode */}
+        <span
+          className={cn(
+            "absolute right-4 -rotate-90 transition-all duration-200",
+            isDark ? "invisible opacity-0" : "visible opacity-100",
+          )}
+        >
+          <svg width="11" height="16" fill="none" viewBox="0 0 11 16">
+            <path fill="#fff" d="M2.727 14.977l.04-.498-.04.498zm-1.72-.49l.489-.11-.489.11zM3.232 1.212L3.514.8l-.282.413zM9.792 8a6.5 6.5 0 00-6.5-6.5v-1a7.5 7.5 0 017.5 7.5h-1zm-6.5 6.5a6.5 6.5 0 006.5-6.5h1a7.5 7.5 0 01-7.5 7.5v-1zm-.525-.02c.173.013.348.02.525.02v1c-.204 0-.405-.008-.605-.024l.08-.997zm-.261-1.83A6.498 6.498 0 005.792 7h1a7.498 7.498 0 01-3.791 6.52l-.495-.87zM5.792 7a6.493 6.493 0 00-2.841-5.374L3.514.8A7.493 7.493 0 016.792 7h-1zm-3.105 8.476c-.528-.042-.985-.077-1.314-.155-.316-.075-.746-.242-.854-.726l.977-.217c-.028-.124-.145-.09.106-.03.237.056.6.086 1.165.131l-.08.997zm.314-1.956c-.622.354-1.045.596-1.31.792a.967.967 0 00-.204.185c-.01.013.027-.038.009-.12l-.977.218a.836.836 0 01.144-.666c.112-.162.27-.3.433-.42.324-.24.814-.519 1.41-.858L3 13.52zM3.292 1.5a.391.391 0 00.374-.285A.382.382 0 003.514.8l-.563.826A.618.618 0 012.702.95a.609.609 0 01.59-.45v1z" />
+          </svg>
+        </span>
+
+        {/* Sun icon — visible in dark mode */}
+        <span
+          className={cn(
+            "absolute left-2 transition-all duration-200",
+            isDark ? "visible opacity-100" : "invisible opacity-0",
+          )}
+        >
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" className="size-4">
+            <circle cx="12" cy="12" r="4.389" stroke="#fff" transform="rotate(-90 12 12)" />
+            <path stroke="#fff" strokeLinecap="round" d="M3.444 12H1M23 12h-2.444M5.95 5.95L4.222 4.22M19.778 19.779L18.05 18.05M12 3.444V1M12 23v-2.445M18.05 5.95l1.728-1.729M4.222 19.779L5.95 18.05" />
+          </svg>
+        </span>
+      </button>
+    </div>
   );
 }
