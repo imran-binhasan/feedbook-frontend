@@ -4,9 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { useToggleLike, useDeletePost, usePostLikes } from "@/features/feed/hooks/use-feed";
+import { useToggleLike, useDeletePost } from "@/features/feed/hooks/use-feed";
 import { CommentThread } from "@/features/feed/components/feed-stream/comment-thread";
 import { EditPostDialog } from "@/features/feed/components/feed-stream/edit-post-dialog";
+import { LikersModal } from "@/features/feed/components/feed-stream/likers-modal";
 import type { Post } from "@/features/feed/types/feed.types";
 import { fromNow, formatCompactNumber } from "@/libs/utils";
 import { cn } from "@/libs/utils";
@@ -18,11 +19,13 @@ type PostCardProps = {
 export function PostCard({ post }: PostCardProps) {
   const toggleLike = useToggleLike();
   const deletePost = useDeletePost();
-  const { data: likers } = usePostLikes(post.id);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showLikers, setShowLikers] = useState(false);
+
+  const likers = post.likers ?? [];
 
   return (
     <div className="mb-4 rounded-md bg-card pt-6 pb-6">
@@ -135,8 +138,12 @@ export function PostCard({ post }: PostCardProps) {
 
       <div className="mb-4 flex items-center justify-between px-6">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          {post.likeCount > 0 && likers ? (
-            <div className="flex items-center gap-1">
+          {post.likeCount > 0 && likers.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setShowLikers(true)}
+              className="flex items-center gap-1 transition-opacity hover:opacity-80"
+            >
               <div className="flex -space-x-3">
                 {likers.slice(0, 5).map((liker) => (
                   <Avatar
@@ -153,9 +160,15 @@ export function PostCard({ post }: PostCardProps) {
                 ) : null}
               </div>
               <span className="text-muted-foreground">{formatCompactNumber(post.likeCount)}</span>
-            </div>
+            </button>
           ) : post.likeCount > 0 ? (
-            <span>{formatCompactNumber(post.likeCount)} like{post.likeCount !== 1 ? "s" : ""}</span>
+            <button
+              type="button"
+              onClick={() => setShowLikers(true)}
+              className="transition-opacity hover:opacity-80"
+            >
+              <span>{formatCompactNumber(post.likeCount)} like{post.likeCount !== 1 ? "s" : ""}</span>
+            </button>
           ) : null}
         </div>
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -212,6 +225,8 @@ export function PostCard({ post }: PostCardProps) {
       ) : null}
 
       <EditPostDialog post={post} open={showEdit} onClose={() => setShowEdit(false)} />
+
+      <LikersModal postId={post.id} open={showLikers} onClose={() => setShowLikers(false)} />
 
       <ConfirmDialog
         open={showDeleteConfirm}

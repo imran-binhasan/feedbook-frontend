@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
 import { useFeed } from "@/features/feed/hooks/use-feed";
 import { CreatePost } from "@/features/feed/components/feed-stream/create-post";
 import { FeedStories } from "@/features/feed/components/feed-stream/feed-stories";
@@ -9,11 +10,30 @@ import type { PaginatedApiResult } from "@/libs/api/client";
 
 export function FeedStream() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useFeed();
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const posts: Post[] = data?.pages.flatMap((p) => {
     const page = p as PaginatedApiResult<Post>;
     return page.items ?? [];
   }) ?? [];
+
+  const handleIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(handleIntersect, { threshold: 0.1 });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [handleIntersect]);
 
   return (
     <div>
@@ -54,17 +74,11 @@ export function FeedStream() {
         <PostCard key={post.id} post={post} />
       ))}
 
-      {hasNextPage && (
-        <div className="flex justify-center py-4">
-          <button
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            className="rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover disabled:opacity-50"
-          >
-            {isFetchingNextPage ? "Loading..." : "Load more"}
-          </button>
-        </div>
-      )}
+      <div ref={sentinelRef} className="flex justify-center py-4">
+        {isFetchingNextPage && (
+          <div className="text-sm text-muted-foreground">Loading more posts...</div>
+        )}
+      </div>
     </div>
   );
 }

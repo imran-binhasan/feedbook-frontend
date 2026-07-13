@@ -16,6 +16,7 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   author: PostAuthor;
+  likers: Liker[];
 }
 
 export interface CreatePostRequest {

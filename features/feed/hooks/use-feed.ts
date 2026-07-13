@@ -597,10 +597,11 @@ export function useToggleLike() {
   });
 }
 
-export function usePostLikes(postId: string) {
+export function usePostLikes(postId: string, opts?: { enabled?: boolean }) {
   return useQuery({
     queryKey: ["post-likes", postId],
     queryFn: () => getPostLikesApi(postId),
     staleTime: 30_000,
+    enabled: opts?.enabled ?? true,
   });
 }
