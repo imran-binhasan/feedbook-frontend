@@ -1,9 +1,9 @@
 import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/libs/utils";
-import { AuthDecorativeShapes } from "@/components/auth/auth-decorative-shapes";
-import { GoogleAuthButton } from "@/components/auth/google-auth-button";
-import { OrDivider } from "@/components/auth/or-divider";
+import { AuthDecorativeShapes } from "@/features/auth/components/auth-decorative-shapes";
+import { GoogleAuthButton } from "@/features/auth/components/google-auth-button";
+import { OrDivider } from "@/features/auth/components/or-divider";
 
 type AuthPageShellProps = {
   illustration: React.ReactNode;

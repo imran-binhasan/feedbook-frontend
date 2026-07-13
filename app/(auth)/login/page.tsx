@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AuthPageShell } from "@/components/auth/auth-page-shell";
-import { LoginForm } from "@/components/auth/login-form";
+import { AuthPageShell } from "@/features/auth/components/auth-page-shell";
+import { LoginForm } from "@/features/auth/components/login-form";
 
 export const metadata: Metadata = {
   title: "Login",

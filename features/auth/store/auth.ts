@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { AuthState, UserProfile } from "@/features/auth/types/auth";
 
 interface AuthActions {
-  setUser: (user: UserProfile) => void;
+  setUser: (user: UserProfile, sessionExpiresAt?: string) => void;
   clearAuth: () => void;
 }
 
@@ -14,8 +14,12 @@ const initialState: AuthState = {
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   ...initialState,
 
-  setUser: (user: UserProfile) =>
-    set({ user, isAuthenticated: true }),
+  setUser: (user: UserProfile, sessionExpiresAt?: string) =>
+    set({
+      user,
+      isAuthenticated: true,
+      sessionExpiresAt,
+    }),
 
   clearAuth: () =>
     set({ ...initialState }),

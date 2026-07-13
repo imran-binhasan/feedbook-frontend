@@ -1,5 +1,5 @@
-import { SuggestedPagesCard } from "@/components/feed/feed-aside/suggested-pages-card";
-import { FriendsListCard } from "@/components/feed/feed-aside/friends-list-card";
+import { SuggestedPagesCard } from "@/features/feed/components/feed-aside/suggested-pages-card";
+import { FriendsListCard } from "@/features/feed/components/feed-aside/friends-list-card";
 
 export function FeedAside() {
   return (

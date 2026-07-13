@@ -1,40 +1,44 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/libs/utils";
 
-type ButtonVariant = "primary" | "outline" | "ghost" | "destructive";
-type ButtonSize = "md" | "icon";
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 rounded-md font-medium leading-none transition-all duration-200 outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-60 disabled:cursor-not-allowed",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-primary text-primary-foreground border border-transparent hover:bg-primary-hover hover:shadow-[0_8px_24px_rgba(149,157,165,0.2)]",
+        outline:
+          "bg-card text-title border border-border-soft hover:bg-surface-muted hover:border-border",
+        ghost: "bg-transparent text-foreground hover:bg-surface-muted",
+        destructive:
+          "bg-destructive text-destructive-foreground border border-transparent hover:bg-destructive/90",
+      },
+      size: {
+        md: "h-12 px-4 text-base",
+        icon: "h-10 w-10 p-0",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  },
+);
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   loading?: boolean;
 }
-
-const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    "bg-primary text-primary-foreground border border-transparent hover:bg-primary-hover hover:shadow-[0_8px_24px_rgba(149,157,165,0.2)]",
-  outline:
-    "bg-card text-title border border-border-soft hover:bg-surface-muted hover:border-border",
-  ghost: "bg-transparent text-foreground hover:bg-surface-muted",
-  destructive:
-    "bg-destructive text-destructive-foreground border border-transparent hover:bg-destructive/90",
-};
-
-const sizeClasses: Record<ButtonSize, string> = {
-  md: "h-12 px-4 text-base",
-  icon: "h-10 w-10 p-0",
-};
-
-const baseClasses =
-  "inline-flex items-center justify-center gap-2 rounded-md font-medium leading-none transition-all duration-200 outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:opacity-60 disabled:cursor-not-allowed";
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
-      variant = "primary",
-      size = "md",
+      variant,
+      size,
       loading = false,
       type = "button",
       disabled,
@@ -49,7 +53,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={disabled || loading}
         aria-busy={loading || undefined}
-        className={cn(baseClasses, variantClasses[variant], sizeClasses[size], className)}
+        className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       >
         {loading ? (

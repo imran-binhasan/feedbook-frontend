@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const wrapper = await res.json();
   const { user, session } = wrapper.data;
 
-  const response = NextResponse.json({ user });
+  const response = NextResponse.json({ user, sessionExpiresAt: session.expiresAt });
   response.cookies.set("session_token", session.token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

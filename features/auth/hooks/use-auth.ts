@@ -14,7 +14,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: (data: LoginRequest) => loginApi(data),
     onSuccess: (response) => {
-      setUser(response.user);
+      setUser(response.user, "sessionExpiresAt" in response ? response.sessionExpiresAt : undefined);
       toast.success("Welcome back!");
       router.push("/feed");
     },
@@ -32,7 +32,7 @@ export function useRegister() {
     mutationFn: (data: RegisterRequest) => registerApi(data),
     onSuccess: (response) => {
       if ("user" in response) {
-        setUser(response.user);
+        setUser(response.user, "sessionExpiresAt" in response ? response.sessionExpiresAt : undefined);
         toast.success("Account created successfully!");
         router.push("/feed");
       } else {

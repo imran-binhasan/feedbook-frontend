@@ -5,7 +5,7 @@ import {
   MobileBellIcon,
   MobileChatIcon,
   MobileMenuIcon,
-} from "@/components/ui/icons";
+} from "@/features/feed/components/feed-icons";
 import { cn } from "@/libs/utils";
 
 type MobileNavItem = {

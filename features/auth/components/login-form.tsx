@@ -6,8 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginValues } from "@/features/auth/schemas/auth";
 import { useLogin } from "@/features/auth/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FieldInput } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export function LoginForm() {
@@ -37,51 +36,27 @@ export function LoginForm() {
       noValidate
       className="space-y-3.5"
     >
-      {/* Email */}
-      <div className="space-y-2">
-        <Label htmlFor="login-email">Email</Label>
-        <Input
-          id="login-email"
-          type="email"
-          autoComplete="email"
-          placeholder="you@example.com"
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "login-email-error" : undefined}
-          {...register("email")}
-        />
-        {errors.email ? (
-          <p
-            id="login-email-error"
-            role="alert"
-            className="text-sm font-normal text-destructive"
-          >
-            {errors.email.message}
-          </p>
-        ) : null}
-      </div>
+      <FieldInput
+        id="login-email"
+        label="Email"
+        name="email"
+        type="email"
+        autoComplete="email"
+        placeholder="you@example.com"
+        register={register}
+        error={errors.email?.message}
+      />
 
-      {/* Password */}
-      <div className="space-y-2">
-        <Label htmlFor="login-password">Password</Label>
-        <Input
-          id="login-password"
-          type="password"
-          autoComplete="current-password"
-          placeholder="••••••••"
-          aria-invalid={!!errors.password}
-          aria-describedby={errors.password ? "login-password-error" : undefined}
-          {...register("password")}
-        />
-        {errors.password ? (
-          <p
-            id="login-password-error"
-            role="alert"
-            className="text-sm font-normal text-destructive"
-          >
-            {errors.password.message}
-          </p>
-        ) : null}
-      </div>
+      <FieldInput
+        id="login-password"
+        label="Password"
+        name="password"
+        type="password"
+        autoComplete="current-password"
+        placeholder="••••••••"
+        register={register}
+        error={errors.password?.message}
+      />
 
       {/* Remember + Forgot */}
       <div className="flex items-center justify-between pt-1">

@@ -21,17 +21,18 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      className="flex h-[32px] w-[66px] items-center rounded-full border border-primary bg-primary"
+      className="fixed right-3 top-1/2 z-[9999] flex -translate-y-1/2 flex-col items-center rounded-full border border-primary bg-primary transition-all duration-200"
+      style={{ width: "32px", height: "66px" }}
     >
       <div
         className="absolute size-[18px] rounded-full bg-card transition-transform duration-200"
         style={{
-          left: "10px",
-          transform: isDark ? "translateX(28px)" : "translateX(0)",
+          top: "6px",
+          transform: isDark ? "translateY(36px)" : "translateY(0)",
         }}
       />
       <svg
-        className="absolute left-3 size-3.5 text-card"
+        className="absolute bottom-2 size-3.5 text-card"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -40,7 +41,7 @@ export function ThemeToggle() {
         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
       </svg>
       <svg
-        className="absolute right-3 size-3.5 text-card"
+        className="absolute top-2 size-3.5 text-card"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

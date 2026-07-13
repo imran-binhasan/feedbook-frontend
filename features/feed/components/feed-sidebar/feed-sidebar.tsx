@@ -1,6 +1,6 @@
-import { ExploreCard } from "@/components/feed/feed-sidebar/explore-card";
-import { SuggestedPeopleCard } from "@/components/feed/feed-sidebar/suggested-people-card";
-import { EventsCard } from "@/components/feed/feed-sidebar/events-card";
+import { ExploreCard } from "@/features/feed/components/feed-sidebar/explore-card";
+import { SuggestedPeopleCard } from "@/features/feed/components/feed-sidebar/suggested-people-card";
+import { EventsCard } from "@/features/feed/components/feed-sidebar/events-card";
 
 export function FeedSidebar() {
   return (

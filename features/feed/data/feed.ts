@@ -72,9 +72,11 @@ export const FRIENDS: Friend[] = [
   { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple", online: false },
   { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn", online: true },
   { avatarSrc: "/images/avatars/people3.png", name: "Dylan Field", role: "CEO of Figma", online: true },
-  { avatarSrc: "/images/avatars/people1.png", name: "Steve Jobs", role: "CEO of Apple", online: false },
-  { avatarSrc: "/images/avatars/people2.png", name: "Ryan Roslansky", role: "CEO of LinkedIn", online: true },
-  { avatarSrc: "/images/avatars/people3.png", name: "Dylan Field", role: "CEO of Figma", online: true },
+  { avatarSrc: "/images/avatars/people2.png", name: "Mark Zuckerberg", role: "CEO of Meta", online: true },
+  { avatarSrc: "/images/avatars/people1.png", name: "Tim Cook", role: "CEO of Apple", online: false },
+  { avatarSrc: "/images/avatars/people3.png", name: "Sundar Pichai", role: "CEO of Google", online: true },
+  { avatarSrc: "/images/avatars/people1.png", name: "Elon Musk", role: "CEO of Tesla", online: false },
+  { avatarSrc: "/images/avatars/people2.png", name: "Satya Nadella", role: "CEO of Microsoft", online: true },
 ];
 
 export const SUGGESTED_PEOPLE: SuggestedPerson[] = [

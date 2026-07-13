@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AuthPageShell } from "@/components/auth/auth-page-shell";
-import { RegisterForm } from "@/components/auth/register-form";
+import { AuthPageShell } from "@/features/auth/components/auth-page-shell";
+import { RegisterForm } from "@/features/auth/components/register-form";
 
 export const metadata: Metadata = {
   title: "Register",

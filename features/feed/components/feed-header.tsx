@@ -7,7 +7,7 @@ import {
   BellIcon,
   ChatIcon,
 } from "@/features/feed/components/feed-icons";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ProfileDropdown } from "@/components/ui/profile-dropdown";
 import { cn } from "@/libs/utils";
 
 type NavLink = {
@@ -102,24 +102,8 @@ export function FeedHeader() {
           ))}
         </ul>
 
-        <ThemeToggle />
-
-        <div className="ml-4 flex shrink-0 cursor-pointer items-center gap-2 lg:ml-8">
-          <div className="size-7 overflow-hidden rounded-full">
-            <Image
-              src="/images/avatars/profile.png"
-              alt="Profile"
-              width={32}
-              height={32}
-              className="size-full object-cover"
-            />
-          </div>
-          <div className="hidden cursor-pointer items-center gap-1 lg:flex">
-            <span className="text-base font-normal text-title">Dylan Field</span>
-            <svg width="10" height="6" fill="none" viewBox="0 0 10 6">
-              <path fill="#112032" className="dark:fill-white" d="M5 5l.354.354L5 5.707l-.354-.353L5 5zm4.354-3.646l-4 4-.708-.708 4-4 .708.708zm-4.708 4l-4-4 .708-.708 4 4-.708.708z" />
-            </svg>
-          </div>
+        <div className="ml-4 lg:ml-8">
+          <ProfileDropdown />
         </div>
       </div>
     </header>

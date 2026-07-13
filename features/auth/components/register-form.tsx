@@ -6,10 +6,8 @@ import type { RegisterValues } from "@/features/auth/schemas/auth";
 import { registerSchema } from "@/features/auth/schemas/auth";
 import { useRegister } from "@/features/auth/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FieldInput } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { FieldPath, UseFormRegister } from "react-hook-form";
 
 export function RegisterForm() {
   const registerMutation = useRegister();
@@ -46,7 +44,6 @@ export function RegisterForm() {
       noValidate
       className="space-y-3.5"
     >
-      {/* First name + Last name */}
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <FieldInput
           id="register-first-name"
@@ -68,7 +65,6 @@ export function RegisterForm() {
         />
       </div>
 
-      {/* Email */}
       <FieldInput
         id="register-email"
         label="Email"
@@ -80,7 +76,6 @@ export function RegisterForm() {
         error={errors.email?.message}
       />
 
-      {/* Password */}
       <FieldInput
         id="register-password"
         label="Password"
@@ -92,7 +87,6 @@ export function RegisterForm() {
         error={errors.password?.message}
       />
 
-      {/* Confirm password */}
       <FieldInput
         id="register-confirm-password"
         label="Repeat password"
@@ -104,7 +98,6 @@ export function RegisterForm() {
         error={errors.confirmPassword?.message}
       />
 
-      {/* Terms */}
       <div className="pt-1">
         <Checkbox
           id="register-terms"
@@ -124,7 +117,6 @@ export function RegisterForm() {
         ) : null}
       </div>
 
-      {/* Submit */}
       <div className="pb-15 pt-6.5">
         <Button
           type="submit"
@@ -136,51 +128,5 @@ export function RegisterForm() {
         </Button>
       </div>
     </form>
-  );
-}
-
-type FieldInputProps = {
-  id: string;
-  label: string;
-  name: FieldPath<RegisterValues>;
-  type?: "text" | "email" | "password";
-  autoComplete?: string;
-  placeholder?: string;
-  register: UseFormRegister<RegisterValues>;
-  error?: string;
-};
-
-function FieldInput({
-  id,
-  label,
-  name,
-  type = "text",
-  autoComplete,
-  placeholder,
-  register,
-  error,
-}: FieldInputProps) {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <Input
-        id={id}
-        type={type}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : undefined}
-        {...register(name)}
-      />
-      {error ? (
-        <p
-          id={`${id}-error`}
-          role="alert"
-          className="text-sm font-normal text-destructive"
-        >
-          {error}
-        </p>
-      ) : null}
-    </div>
   );
 }
