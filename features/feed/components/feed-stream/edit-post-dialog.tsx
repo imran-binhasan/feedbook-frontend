@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Avatar } from "@/components/ui/avatar";
 import { useUpdatePost } from "@/features/feed/hooks/use-feed";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
@@ -179,25 +180,73 @@ export function EditPostDialog({ post, open, onClose }: EditPostDialogProps) {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
-              {isPublic ? "Public" : "Private"}
-            </span>
-            <button
-              type="button"
-              onClick={() => setIsPublic(!isPublic)}
-              className={cn(
-                "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors",
-                isPublic ? "bg-primary" : "bg-border",
-              )}
-            >
-              <span
-                className={cn(
-                  "inline-block size-4 transform rounded-full bg-white shadow-sm transition-transform",
-                  isPublic ? "translate-x-4" : "translate-x-0",
-                )}
-              />
-            </button>
+          <div>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild>
+                <button type="button" className="group flex cursor-pointer items-center gap-0.5 px-1 py-1 text-xs text-muted-foreground transition-colors hover:bg-surface-muted sm:gap-1 sm:px-1.5 sm:text-sm">
+                  <span className="flex items-center">
+                    {isPublic ? (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"/>
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0110 0v4"/>
+                      </svg>
+                    )}
+                  </span>
+                  <span className="hidden sm:inline">{isPublic ? "Public" : "Private"}</span>
+                  <svg className="hidden sm:block" width="6" height="4" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m1 1 4 4 4-4"/>
+                  </svg>
+                </button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content
+                  sideOffset={4}
+                  className="z-[9999] min-w-[160px] rounded-lg bg-card p-1 shadow-lg ring-1 ring-border-soft"
+                >
+                  <DropdownMenu.Item
+                    onSelect={() => setIsPublic(true)}
+                    className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-foreground outline-none transition-colors hover:bg-surface-muted data-[highlighted]:bg-surface-muted"
+                  >
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"/>
+                    </svg>
+                    <div>
+                      <p className="font-medium">Public</p>
+                      <p className="text-xs text-muted-foreground">Anyone can see this post</p>
+                    </div>
+                    {isPublic && (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto text-primary">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    onSelect={() => setIsPublic(false)}
+                    className="flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-foreground outline-none transition-colors hover:bg-surface-muted data-[highlighted]:bg-surface-muted"
+                  >
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                    <div>
+                      <p className="font-medium">Private</p>
+                      <p className="text-xs text-muted-foreground">Only you can see this post</p>
+                    </div>
+                    {!isPublic && (
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto text-primary">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu.Root>
           </div>
         </div>
 

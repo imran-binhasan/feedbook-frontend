@@ -4,15 +4,23 @@ import { fetchBackend } from "@/libs/api/backend";
 export async function POST(request: NextRequest) {
   const { remember, ...body } = await request.json();
 
-  const res = await fetchBackend("/auth/login", {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
+  let res: Response;
+  try {
+    res = await fetchBackend("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  } catch {
+    return NextResponse.json(
+      { message: "Unable to connect to the server. Please try again later." },
+      { status: 502 },
+    );
+  }
 
   if (!res.ok) {
-    const body = await res.json().catch(() => ({ error: { message: "Invalid email or password" } }));
+    const data = await res.json().catch(() => ({ error: { message: "Invalid email or password" } }));
     return NextResponse.json(
-      { message: body.error?.message ?? "Invalid email or password" },
+      { message: data.error?.message ?? "Invalid email or password" },
       { status: res.status },
     );
   }

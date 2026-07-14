@@ -38,7 +38,7 @@ async function proxy(request: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { success: false, error: { message: "Backend unreachable" } },
+      { success: false, error: { message: "Service temporarily unavailable. Please try again." } },
       { status: 502 },
     );
   }
