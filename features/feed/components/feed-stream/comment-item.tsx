@@ -101,7 +101,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
                   setEditing(true);
                   setMenuOpen(false);
                 }}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
+                className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
               >
                 Edit
               </button>
@@ -112,7 +112,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
                   setMenuOpen(false);
                 }}
                 disabled={deleteComment.isPending}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-destructive transition-colors hover:bg-surface-muted disabled:opacity-50"
+                className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-destructive transition-colors hover:bg-surface-muted disabled:opacity-50"
               >
                 Delete
               </button>
@@ -134,7 +134,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
                 setEditing(false);
               }}
               disabled={updateComment.isPending}
-              className="inline-flex h-7 items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-white transition-colors hover:bg-primary-hover disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-7 cursor-pointer items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-white transition-colors hover:bg-primary-hover disabled:pointer-events-none disabled:opacity-50"
             >
               {updateComment.isPending ? (
                 <span className="mr-1.5 size-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -147,7 +147,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
                 setDraft(comment.content ?? "");
                 setEditing(false);
               }}
-              className="inline-flex h-7 items-center justify-center rounded-md border border-border-soft bg-card px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-muted"
+              className="inline-flex h-7 cursor-pointer items-center justify-center rounded-md border border-border-soft bg-card px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-muted"
             >
               Cancel
             </button>
@@ -183,7 +183,7 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
                 <button
                   type="button"
                   onClick={() => setShowLikers((v) => !v)}
-                  className="flex items-center gap-1 transition-colors hover:text-primary"
+                  className="flex cursor-pointer items-center gap-1 transition-colors hover:text-primary"
                 >
                   <svg
                     width="12"

@@ -1,123 +1,188 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
 
-const STORIES = [
-  { src: "/images/avatars/card_ppl2.png", mini: "/images/avatars/mini_pic.png", name: "Ryan Roslansky" },
-  { src: "/images/avatars/card_ppl3.png", mini: "/images/avatars/mini_pic.png", name: "Ryan Roslansky" },
-  { src: "/images/avatars/card_ppl4.png", mini: "/images/avatars/mini_pic.png", name: "Ryan Roslansky" },
+import type { FeedStory } from "../../types/feed.types";
+
+const STORIES: FeedStory[] = [
+  {
+    id: "own",
+    name: "Your Story",
+    cover: "/images/avatars/card_ppl1.png",
+    avatar: null,
+    isOwn: true,
+  },
+  {
+    id: "1",
+    name: "Ryan Roslansky",
+    cover: "/images/avatars/card_ppl2.png",
+    avatar: "/images/avatars/mini_pic.png",
+    isOwn: false,
+  },
+  {
+    id: "2",
+    name: "Ryan Roslansky",
+    cover: "/images/avatars/card_ppl3.png",
+    avatar: "/images/avatars/mini_pic.png",
+    isOwn: false,
+  },
+  {
+    id: "3",
+    name: "Ryan Roslansky",
+    cover: "/images/avatars/card_ppl4.png",
+    avatar: "/images/avatars/mini_pic.png",
+    isOwn: false,
+  },
 ];
 
 export function FeedStories() {
   return (
     <>
-      {/* Desktop */}
-      <div className="relative mb-4 hidden lg:block">
-        <div className="absolute right-2 top-1/2 z-10 -translate-y-1/2">
-          <button
-            type="button"
-            className="flex size-7.25 items-center justify-center rounded-full bg-primary shadow-md"
-          >
-            <svg width="9" height="8" fill="none" viewBox="0 0 9 8">
-              <path fill="#fff" d="M8 4l.366-.341.318.341-.318.341L8 4zm-7 .5a.5.5 0 010-1v1zM5.566.659l2.8 3-.732.682-2.8-3L5.566.66zm2.8 3.682l-2.8 3-.732-.682 2.8-3 .732.682zM8 4.5H1v-1h7v1z" />
-            </svg>
-          </button>
-        </div>
-        <div className="grid grid-cols-4 gap-3">
-          {/* Your Story */}
-          <div className="relative overflow-hidden rounded-md ring-2 ring-primary ring-offset-2">
-          <Image
-              src="/images/avatars/card_ppl1.png"
-              alt=""
-              width={180}
-              height={240}
-              priority
-              className="h-48 w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <button
-                type="button"
-                className="flex size-10 items-center justify-center rounded-full border-2 border-white bg-primary"
-              >
-                <svg width="12" height="12" fill="none" viewBox="0 0 12 12">
-                  <path stroke="#fff" strokeLinecap="round" d="M6 2.5v7M2.5 6h7" />
-                </svg>
-              </button>
-            </div>
-            <p className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-medium text-white">
-              Your Story
-            </p>
-          </div>
+      <DesktopStories stories={STORIES} />
+      <MobileStories stories={STORIES} />
+    </>
+  );
+}
 
-          {/* Other stories */}
-          {STORIES.map((story, i) => (
-            <div key={i} className="relative overflow-hidden rounded-md">
-              <Image
-                  src={story.src}
-                  alt=""
-                  width={180}
-                  height={240}
-                  priority={i === 0}
-                  className="h-48 w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
-              <div className="absolute left-2 top-2 size-8 overflow-hidden rounded-full border-2 border-primary ring-2 ring-white">
-                <Image
-                  src={story.mini}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="size-full object-cover"
-                />
+function DesktopStories({ stories }: { stories: FeedStory[] }) {
+  return (
+    <div className="relative mb-4 hidden md:block">
+      <div className="absolute top-1/2 right-[-5px] z-20 -translate-y-1/2">
+        <Button
+          type="button"
+          size="icon"
+          className="border-background bg-primary hover:bg-primary-hover h-6 w-6 rounded-full border"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="9"
+            height="8"
+            fill="none"
+            viewBox="0 0 9 8"
+          >
+            <path
+              fill="currentColor"
+              d="M8 4l.366-.341.318.341-.318.341L8 4zm-7 .5a.5.5 0 010-1v1zM5.566.659l2.8 3-.732.682-2.8-3L5.566.66zm2.8 3.682l-2.8 3-.732-.682 2.8-3 .732.682zM8 4.5H1v-1h7v1z"
+            />
+          </svg>
+        </Button>
+      </div>
+
+      <div className="flex w-full gap-6 overflow-x-auto">
+        {stories.map((story, index) => (
+          <StoryCard
+            key={story.id}
+            story={story}
+            className={cn(
+              "w-[30%] shrink-0 lg:w-[22%]",
+              index >= 2 && "hidden md:block",
+              index >= 3 && "hidden lg:block",
+            )}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StoryCard({
+  story,
+  className,
+}: {
+  story: FeedStory;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <Link
+        href="#0"
+        className="group block overflow-hidden transition-all duration-200 ease-in-out"
+      >
+        <div className="relative z-2 flex h-[155px] w-full flex-col justify-end overflow-hidden rounded-lg">
+          <Image
+            src={story.cover}
+            alt={story.name}
+            fill
+            sizes="(max-width: 1024px) 30vw, 140px"
+            className="object-cover"
+            priority={story.isOwn}
+          />
+          <div className="absolute inset-0 z-1 bg-black/50 transition-opacity duration-200 group-hover:opacity-70" />
+
+          {story.isOwn ? (
+            <div className="bg-neutral-900 relative z-10 w-full rounded-t-[25.5px] rounded-b-md pt-[30px]">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="border-card bg-primary flex h-8 w-8 items-center justify-center rounded-full border-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    fill="none"
+                    viewBox="0 0 10 10"
+                  >
+                    <path
+                      stroke="#fff"
+                      strokeLinecap="round"
+                      d="M.5 4.884h9M4.884 9.5v-9"
+                    />
+                  </svg>
+                </span>
               </div>
-              <p className="absolute bottom-3 left-3 text-xs font-medium text-white">
+              <p className="mb-2.5 text-center text-xs leading-[19px] font-medium text-white">
                 {story.name}
               </p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile - horizontal scroll */}
-      <div className="mb-4 overflow-x-auto scrollbar-none lg:hidden">
-        <ul className="flex gap-3">
-          <li className="shrink-0">
-            <a href="#" className="block">
-              <div className="relative mb-1 size-16 overflow-hidden rounded-full ring-2 ring-primary">
-                  <Image
-                    src="/images/avatars/card_ppl1.png"
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="size-full object-cover"
-                />
+          ) : (
+            <>
+              <div className="relative z-10 w-full">
+                <p className="mb-2.5 text-center text-xs leading-[19px] font-medium text-white">
+                  {story.name}
+                </p>
               </div>
-              <p className="text-center text-xs font-medium text-primary">Your Story</p>
-            </a>
-          </li>
-          {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <li key={i} className="shrink-0">
-              <a href="#" className="block">
-                <div
-                  className={cn(
-                    "relative mb-1 size-16 overflow-hidden rounded-full ring-2",
-                    i % 3 === 0 ? "ring-primary" : "ring-border",
-                  )}
-                >
-                  <Image
-                    src={i % 2 === 0 ? "/images/avatars/card_ppl2.png" : "/images/avatars/card_ppl3.png"}
-                    alt=""
-                    width={64}
-                    height={64}
-                    className="size-full object-cover"
+              {story.avatar ? (
+                <div className="absolute top-3 right-3 z-10">
+                  <Avatar
+                    src={story.avatar}
+                    name={story.name}
+                    size={28}
+                    className="border-card border-2"
                   />
                 </div>
-                <p className="text-center text-xs text-muted-foreground">Ryan...</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+              ) : null}
+            </>
+          )}
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+function MobileStories({ stories }: { stories: FeedStory[] }) {
+  return (
+    <div className="mb-4 flex gap-3 overflow-x-auto px-1 md:hidden">
+      {stories.map((story) => (
+        <Link
+          key={story.id}
+          href="#0"
+          className="flex w-16 shrink-0 flex-col items-center gap-1"
+        >
+          <Avatar
+            src={story.avatar ?? story.cover}
+            name={story.name}
+            size={56}
+            className={cn(
+              "border-2",
+              story.isOwn ? "border-primary" : "border-primary/60",
+            )}
+          />
+          <span className="text-muted-foreground line-clamp-1 w-full text-center text-[11px]">
+            {story.isOwn ? "Your Story" : story.name.split(" ")[0]}
+          </span>
+        </Link>
+      ))}
+    </div>
   );
 }

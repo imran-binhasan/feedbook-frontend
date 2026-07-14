@@ -49,7 +49,7 @@ export function ConfirmDialog({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 cursor-pointer bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
       <div className="relative z-10 mx-4 w-full max-w-sm rounded-xl bg-card p-6 shadow-2xl">
@@ -60,7 +60,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="inline-flex h-10 items-center justify-center rounded-md bg-surface-muted px-4 text-sm font-medium text-foreground transition-colors hover:bg-border-soft disabled:pointer-events-none disabled:opacity-50"
+            className="inline-flex h-10 cursor-pointer items-center justify-center rounded-md bg-surface-muted px-4 text-sm font-medium text-foreground transition-colors hover:bg-border-soft disabled:pointer-events-none disabled:opacity-50"
           >
             {cancelLabel}
           </button>
@@ -69,7 +69,7 @@ export function ConfirmDialog({
             onClick={onConfirm}
             disabled={loading}
             className={cn(
-              "inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium text-white transition-colors disabled:pointer-events-none disabled:opacity-50",
+              "inline-flex h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-medium text-white transition-colors disabled:pointer-events-none disabled:opacity-50",
               variant === "danger"
                 ? "bg-destructive hover:bg-destructive/90"
                 : "bg-primary hover:bg-primary-hover",

@@ -115,7 +115,7 @@ export function FeedHeader() {
         <button
           type="button"
           aria-label="Search"
-          className="ml-auto flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-surface-muted lg:hidden"
+          className="ml-auto flex size-10 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-surface-muted lg:hidden"
         >
           <SearchIcon className="size-[18px]" />
         </button>

@@ -56,7 +56,7 @@ export function PostCard({ post }: PostCardProps) {
             <button
               type="button"
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex size-8 items-center justify-center rounded-full text-placeholder transition-colors hover:bg-surface-muted hover:text-muted-foreground"
+              className="flex size-8 cursor-pointer items-center justify-center rounded-full text-placeholder transition-colors hover:bg-surface-muted hover:text-muted-foreground"
             >
               <svg width="4" height="17" fill="none" viewBox="0 0 4 17">
                 <circle cx="2" cy="2" r="2" fill="currentColor" />
@@ -99,7 +99,7 @@ export function PostCard({ post }: PostCardProps) {
                     <button
                       type="button"
                       onClick={() => { setDropdownOpen(false); setShowEdit(true); }}
-                      className="group flex w-full items-center gap-2 rounded-md px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground sm:gap-3 sm:px-3 sm:py-2.5 sm:text-sm"
+                      className="group flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground sm:gap-3 sm:px-3 sm:py-2.5 sm:text-sm"
                     >
                       <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-background transition-colors group-hover:bg-accent-tint sm:size-[34px]">
                         <svg width="14" height="14" fill="none" viewBox="0 0 18 18" className="sm:size-4"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M8.25 3H3a1.5 1.5 0 00-1.5 1.5V15A1.5 1.5 0 003 16.5h10.5A1.5 1.5 0 0015 15V9.75"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M13.875 1.875a1.591 1.591 0 112.25 2.25L9 11.25 6 12l.75-3 7.125-7.125z"/></svg>
@@ -111,7 +111,7 @@ export function PostCard({ post }: PostCardProps) {
                     <button
                       type="button"
                       onClick={() => { setDropdownOpen(false); setShowDeleteConfirm(true); }}
-                      className="group flex w-full items-center gap-2 rounded-md px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground sm:gap-3 sm:px-3 sm:py-2.5 sm:text-sm"
+                      className="group flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground sm:gap-3 sm:px-3 sm:py-2.5 sm:text-sm"
                     >
                       <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-background transition-colors group-hover:bg-accent-tint sm:size-[34px]">
                         <svg width="14" height="14" fill="none" viewBox="0 0 18 18" className="sm:size-4"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M2.25 4.5h13.5M6 4.5V3a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0112 3v1.5m2.25 0V15a1.5 1.5 0 01-1.5 1.5h-7.5a1.5 1.5 0 01-1.5-1.5V4.5h10.5zM7.5 8.25v4.5M10.5 8.25v4.5"/></svg>
@@ -142,7 +142,7 @@ export function PostCard({ post }: PostCardProps) {
             <button
               type="button"
               onClick={() => setShowLikers(true)}
-              className="flex items-center gap-1 transition-opacity hover:opacity-80"
+              className="flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-80"
             >
               <div className="flex -space-x-3">
                 {likers.slice(0, 5).map((liker) => (
@@ -165,7 +165,7 @@ export function PostCard({ post }: PostCardProps) {
             <button
               type="button"
               onClick={() => setShowLikers(true)}
-              className="transition-opacity hover:opacity-80"
+              className="cursor-pointer transition-opacity hover:opacity-80"
             >
               <span>{formatCompactNumber(post.likeCount)} like{post.likeCount !== 1 ? "s" : ""}</span>
             </button>
@@ -175,7 +175,7 @@ export function PostCard({ post }: PostCardProps) {
           <button
             type="button"
             onClick={() => setShowComments((v) => !v)}
-            className="transition-colors hover:text-primary"
+            className="cursor-pointer transition-colors hover:text-primary"
           >
             {post.commentCount} Comment{post.commentCount !== 1 ? "s" : ""}
           </button>
@@ -186,7 +186,7 @@ export function PostCard({ post }: PostCardProps) {
         <button
           onClick={() => toggleLike.mutate(post.id)}
           className={cn(
-            "flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm transition-colors",
+            "flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md py-2 text-sm transition-colors",
             post.hasLiked
               ? "text-primary hover:bg-accent-tint"
               : "text-muted-foreground hover:bg-accent-tint hover:text-primary",
@@ -200,7 +200,7 @@ export function PostCard({ post }: PostCardProps) {
         <button
           onClick={() => setShowComments((v) => !v)}
           className={cn(
-            "flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm transition-colors hover:bg-accent-tint hover:text-primary",
+            "flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md py-2 text-sm transition-colors hover:bg-accent-tint hover:text-primary",
             showComments ? "text-primary" : "text-muted-foreground",
           )}
         >
@@ -210,7 +210,7 @@ export function PostCard({ post }: PostCardProps) {
           </svg>
           Comment
         </button>
-        <button className="flex flex-1 items-center justify-center gap-2 rounded-md py-2 text-sm text-muted-foreground transition-colors hover:bg-accent-tint hover:text-primary">
+        <button className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md py-2 text-sm text-muted-foreground transition-colors hover:bg-accent-tint hover:text-primary">
           <svg width="24" height="21" fill="none" viewBox="0 0 24 21">
             <path stroke="currentColor" strokeLinejoin="round" d="M23 10.5L12.917 1v5.429C3.267 6.429 1 13.258 1 20c2.785-3.52 5.248-5.429 11.917-5.429V20L23 10.5z" />
           </svg>

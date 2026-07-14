@@ -13,6 +13,7 @@ export function AuthDecorativeShapes() {
         width={176}
         height={540}
         unoptimized
+        priority
         aria-hidden="true"
         className="absolute left-0 top-0 w-44 max-xl:w-37.5 dark:hidden"
       />

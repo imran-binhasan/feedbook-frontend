@@ -85,6 +85,7 @@ export function RegisterForm() {
         placeholder="••••••••"
         register={register}
         error={errors.password?.message}
+        showPasswordToggle
       />
 
       <FieldInput
@@ -96,6 +97,7 @@ export function RegisterForm() {
         placeholder="••••••••"
         register={register}
         error={errors.confirmPassword?.message}
+        showPasswordToggle
       />
 
       <div className="pt-1">

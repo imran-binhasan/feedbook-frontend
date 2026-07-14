@@ -107,8 +107,8 @@ function AuthIllustration({
       height={height}
       priority
       sizes={`(max-width: 1024px) 100vw, ${width}px`}
-      className={cn("h-auto w-full", className)}
-      style={{ maxWidth: width }}
+      className={cn("w-full", className)}
+      style={{ maxWidth: width, height: "auto" }}
     />
   );
 }

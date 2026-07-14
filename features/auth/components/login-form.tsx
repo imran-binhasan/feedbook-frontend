@@ -56,6 +56,7 @@ export function LoginForm() {
         placeholder="••••••••"
         register={register}
         error={errors.password?.message}
+        showPasswordToggle
       />
 
       {/* Remember + Forgot */}

@@ -47,7 +47,7 @@ export function SuggestedPagesCard() {
               <button
                 type="button"
                 className={cn(
-                  "flex-1 rounded-[6px] border border-border-strong bg-transparent py-[10px] text-[15px] font-medium text-muted-foreground transition-colors",
+                  "flex-1 cursor-pointer rounded-[6px] border border-border-strong bg-transparent py-[10px] text-[15px] font-medium text-muted-foreground transition-colors",
                   "hover:bg-surface-muted",
                 )}
               >
@@ -56,7 +56,7 @@ export function SuggestedPagesCard() {
               <button
                 type="button"
                 className={cn(
-                  "flex-1 rounded-[6px] bg-primary py-[10px] text-[15px] font-medium text-primary-foreground transition-colors",
+                  "flex-1 cursor-pointer rounded-[6px] bg-primary py-[10px] text-[15px] font-medium text-primary-foreground transition-colors",
                   "hover:bg-primary-hover",
                 )}
               >

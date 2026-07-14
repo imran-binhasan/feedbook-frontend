@@ -146,7 +146,7 @@ export async function uploadImageApi(file: File, folder: "posts" | "comments" | 
     let msg = "Upload failed";
     try {
       const err = await res.json();
-      msg = err.message ?? err.error ?? msg;
+      msg = err?.error?.message ?? err?.message ?? msg;
     } catch { /* ignore */ }
     throw new Error(msg);
   }

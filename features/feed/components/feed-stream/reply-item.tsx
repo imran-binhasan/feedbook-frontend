@@ -56,7 +56,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}
                 aria-label="Reply actions"
-                className="text-muted-foreground hover:text-primary -mt-0.5 shrink-0"
+                className="text-muted-foreground hover:text-primary -mt-0.5 shrink-0 cursor-pointer"
               >
                 <svg width="14" height="14" viewBox="0 0 4 17" fill="none">
                   <circle cx="2" cy="2" r="2" fill="currentColor" />
@@ -92,7 +92,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                   setEditing(true);
                   setMenuOpen(false);
                 }}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
+                className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground"
               >
                 Edit
               </button>
@@ -103,7 +103,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                   setMenuOpen(false);
                 }}
                 disabled={deleteReply.isPending}
-                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-destructive transition-colors hover:bg-surface-muted disabled:opacity-50"
+                className="flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-destructive transition-colors hover:bg-surface-muted disabled:opacity-50"
               >
                 Delete
               </button>
@@ -125,7 +125,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                 setEditing(false);
               }}
               disabled={updateReply.isPending}
-              className="inline-flex h-7 items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-white transition-colors hover:bg-primary-hover disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-7 cursor-pointer items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-white transition-colors hover:bg-primary-hover disabled:pointer-events-none disabled:opacity-50"
             >
               {updateReply.isPending ? (
                 <span className="mr-1.5 size-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -138,7 +138,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                 setDraft(reply.content);
                 setEditing(false);
               }}
-              className="inline-flex h-7 items-center justify-center rounded-md border border-border-soft bg-card px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-muted"
+              className="inline-flex h-7 cursor-pointer items-center justify-center rounded-md border border-border-soft bg-card px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-muted"
             >
               Cancel
             </button>
@@ -165,7 +165,7 @@ export function ReplyItem({ reply, postId, commentId }: ReplyItemProps) {
                 <button
                   type="button"
                   onClick={() => setShowLikers((v) => !v)}
-                  className="flex items-center gap-1 transition-colors hover:text-primary"
+                  className="flex cursor-pointer items-center gap-1 transition-colors hover:text-primary"
                 >
                   <svg
                     width="12"

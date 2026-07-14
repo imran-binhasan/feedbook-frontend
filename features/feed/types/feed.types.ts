@@ -106,3 +106,11 @@ export interface Liker {
   userId: string;
   author: PostAuthor;
 }
+
+export interface FeedStory {
+  id: string;
+  name: string;
+  cover: string;
+  avatar: string | null;
+  isOwn: boolean;
+}

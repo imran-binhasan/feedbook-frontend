@@ -47,10 +47,9 @@ export function ProfileDropdown() {
           <Avatar name={name} email={email} size={28} />
           <div className="hidden cursor-pointer items-center gap-1 lg:flex">
             <span className="text-base font-normal text-title">{name}</span>
-            <svg width="10" height="6" fill="none" viewBox="0 0 10 6">
+            <svg width="10" height="6" fill="none" viewBox="0 0 10 6" className="text-title">
               <path
-                fill="#112032"
-                className="dark:fill-white"
+                fill="currentColor"
                 d="M5 5l.354.354L5 5.707l-.354-.353L5 5zm4.354-3.646l-4 4-.708-.708 4-4 .708.708zm-4.708 4l-4-4 .708-.708 4 4-.708.708z"
               />
             </svg>
@@ -89,10 +88,9 @@ export function ProfileDropdown() {
                     </span>
                     {item.label}
                   </span>
-                  <svg width="6" height="10" fill="none" viewBox="0 0 6 10" className="opacity-50">
+                  <svg width="6" height="10" fill="none" viewBox="0 0 6 10" className="text-muted-foreground opacity-50">
                     <path
-                      fill="#112032"
-                      className="dark:fill-white"
+                      fill="currentColor"
                       d="M5 5l.354.354L5.707 5l-.353-.354L5 5zM1.354 9.354l4-4-.708-.708-4 4 .708.708zm4-4.708l-4-4-.708.708 4 4 .708-.708z"
                     />
                   </svg>
@@ -107,7 +105,7 @@ export function ProfileDropdown() {
             <button
               type="button"
               onClick={() => logout.mutate()}
-              className="group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors hover:bg-surface-muted hover:text-foreground"
+              className="group flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors hover:bg-surface-muted hover:text-foreground"
             >
               <span className="flex items-center gap-3">
                 <span className="flex size-[34px] shrink-0 items-center justify-center rounded-full bg-background transition-colors group-hover:bg-accent-tint">

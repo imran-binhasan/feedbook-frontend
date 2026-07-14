@@ -63,7 +63,7 @@ export function CommentInput({
               <button
                 type="button"
                 onClick={() => setImageFile(null)}
-                className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-destructive text-[10px] text-white shadow"
+                className="absolute -top-1.5 -right-1.5 flex size-5 cursor-pointer items-center justify-center rounded-full bg-destructive text-[10px] text-white shadow"
               >
                 ✕
               </button>

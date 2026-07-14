@@ -22,7 +22,7 @@ export function ThemeToggle() {
         aria-label="Toggle theme"
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className={cn(
-          "relative flex h-8 w-[66px] items-center rounded-full border transition-none",
+          "relative flex h-8 w-[66px] cursor-pointer items-center rounded-full border transition-none",
           "rotate-90",
           isDark
             ? "border-transparent bg-background"
