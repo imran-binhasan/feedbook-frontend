@@ -118,6 +118,16 @@ export function CommentInput({
                 </button>
               </>
             ) : null}
+            <button
+              type="submit"
+              aria-label="Send"
+              disabled={(!text.trim() && !imageFile) || disabled}
+              className="text-muted-foreground mx-1 shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg width="16" height="16" fill="none" viewBox="0 0 16 16" className="text-current">
+                <path fill="currentColor" fillRule="evenodd" d="M1.96 4.733l11.48-3.36a.39.39 0 01.486.486l-3.36 11.48a.385.385 0 01-.41.244.38.38 0 01-.322-.253L7.543 7.53l.405-.405-.405.405-5.33-2.273a.38.38 0 01-.252-.323.385.385 0 01.244-.41l-.264.21zM8.048 8.215l2.698 4.376 3.07-10.477-3.573.988 2.502 2.502a.5.5 0 01-.707.707L9.536 3.809l-.988 3.573L8.048 8.215z" clipRule="evenodd" />
+              </svg>
+            </button>
           </div>
         </>
       )}
