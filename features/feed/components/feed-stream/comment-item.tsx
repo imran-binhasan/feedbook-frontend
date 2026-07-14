@@ -10,6 +10,7 @@ import {
   useDeleteComment,
   useToggleCommentLike,
   useUpdateComment,
+  useCommentLikes,
 } from "@/features/feed/hooks/use-feed";
 import { useAuthStore } from "@/features/auth/store/auth";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
@@ -25,10 +26,12 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(comment.content ?? "");
+  const [showLikers, setShowLikers] = useState(false);
 
   const toggleLike = useToggleCommentLike(postId);
   const deleteComment = useDeleteComment(postId);
   const updateComment = useUpdateComment(postId);
+  const { data: commentLikers } = useCommentLikes(showLikers ? comment.id : "");
 
   const storedUser = useAuthStore((s) => s.user);
   const { data: me } = useCurrentUser();
@@ -176,20 +179,45 @@ export function CommentItem({ comment, postId }: CommentItemProps) {
               </button>
             </li>
             {comment.likeCount > 0 ? (
-              <li className="flex items-center gap-1">
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#1890FF"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setShowLikers((v) => !v)}
+                  className="flex items-center gap-1 transition-colors hover:text-primary"
                 >
-                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-                </svg>
-                <span className="text-title font-medium">{comment.likeCount}</span>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#1890FF"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+                  </svg>
+                  <span className="text-title font-medium">{comment.likeCount}</span>
+                </button>
+                {showLikers && commentLikers && commentLikers.length > 0 ? (
+                  <div className="mt-1 flex items-center gap-1">
+                    <div className="flex -space-x-2">
+                      {commentLikers.slice(0, 5).map((liker) => (
+                        <Avatar
+                          key={liker.userId}
+                          name={`${liker.author.firstName} ${liker.author.lastName}`}
+                          size={24}
+                          className="border-2 border-card"
+                        />
+                      ))}
+                      {commentLikers.length > 5 ? (
+                        <div className="flex size-6 items-center justify-center rounded-full border border-border bg-card text-[10px] font-semibold text-muted-foreground">
+                          +{commentLikers.length - 5}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
               </li>
             ) : null}
           </ul>

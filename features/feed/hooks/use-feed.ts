@@ -20,6 +20,8 @@ import {
   deleteReplyApi,
   toggleReplyLikeApi,
   getPostLikesApi,
+  getCommentLikesApi,
+  getReplyLikesApi,
 } from "@/features/feed/api/feed.api";
 import { useCurrentUser } from "@/features/auth/hooks/use-auth";
 import type {
@@ -603,5 +605,21 @@ export function usePostLikes(postId: string, opts?: { enabled?: boolean }) {
     queryFn: () => getPostLikesApi(postId),
     staleTime: 30_000,
     enabled: opts?.enabled ?? true,
+  });
+}
+
+export function useCommentLikes(commentId: string) {
+  return useQuery({
+    queryKey: ["comment-likes", commentId],
+    queryFn: () => getCommentLikesApi(commentId),
+    staleTime: 30_000,
+  });
+}
+
+export function useReplyLikes(replyId: string) {
+  return useQuery({
+    queryKey: ["reply-likes", replyId],
+    queryFn: () => getReplyLikesApi(replyId),
+    staleTime: 30_000,
   });
 }

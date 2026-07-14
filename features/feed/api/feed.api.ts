@@ -79,6 +79,14 @@ export function deleteCommentApi(commentId: string) {
   return apiClient<void>(`/api/v1/comments/${commentId}`, { method: "DELETE" });
 }
 
+export function getCommentLikesApi(commentId: string, limit = 5) {
+  return apiClient<{ items: Liker[] } | Liker[]>(`/api/v1/comments/${commentId}/likes?limit=${limit}`)
+    .then((res) => {
+      if (Array.isArray(res)) return res;
+      return res.items ?? [];
+    });
+}
+
 export function toggleCommentLikeApi(commentId: string) {
   return apiClient<{ liked: boolean }>(`/api/v1/comments/${commentId}/like`, { method: "POST" });
 }
@@ -108,6 +116,14 @@ export function updateReplyApi(replyId: string, data: UpdateReplyRequest) {
 
 export function deleteReplyApi(replyId: string) {
   return apiClient<void>(`/api/v1/replies/${replyId}`, { method: "DELETE" });
+}
+
+export function getReplyLikesApi(replyId: string, limit = 5) {
+  return apiClient<{ items: Liker[] } | Liker[]>(`/api/v1/replies/${replyId}/likes?limit=${limit}`)
+    .then((res) => {
+      if (Array.isArray(res)) return res;
+      return res.items ?? [];
+    });
 }
 
 export function toggleReplyLikeApi(replyId: string) {
